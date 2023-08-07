@@ -8,22 +8,25 @@ class Nodo:
 class Lista_enlazada: 
     def __init__(self, nodo: Nodo):
         self.cabeza = nodo
-        self.cola = nodo
+        self.cola = nodo      
+        self.longitud = 1
 
     # Método para agregar elementos al final de la Lista_enlazada
     def insertar_nodo_al_final(self, nuevo_nodo: Nodo):
         self.cola.siguiente = nuevo_nodo
         self.cola = self.cola.siguiente
+        self.longitud +=1
 
     # Método para agregar elementos en al inicio de la Lista_enlazada
     def insertar_nodo_al_inicio(self, nuevo_nodo: Nodo):
         nuevo_nodo.siguiente = self.cabeza
         self.cabeza = nuevo_nodo
+        self.longitud +=1
     
     # Método para buscar un nodo a partir de un valor 
     def buscar_nodo_por_valor(self, valor_a_buscar):
         nodo_actual = self.cabeza
-        while(nodo_actual != None):
+        while(nodo_actual is not None):
             if (nodo_actual.data == valor_a_buscar):
                 return nodo_actual
             nodo_actual = nodo_actual.siguiente
@@ -31,7 +34,7 @@ class Lista_enlazada:
 
     # Método para verificar si la Lista_enlazada esta vacia
     def es_vacio(self):
-        return self.cabeza == None
+        return self.cabeza is None
 
     ''' Método para borrar un nodo, INCOMPLETO '''
     def borrar_nodo(self, nodo: Nodo):
@@ -44,7 +47,7 @@ class Lista_enlazada:
         else:        
             nodo_a_borrar = self.buscar_nodo_por_valor(nodo_a_borrar.data)
 
-            if (nodo_a_borrar != None):
+            if (nodo_a_borrar is not None):
                 if (self.cabeza == self.cola):
                     self.cabeza = None
                     print('ListaEnlazada ahora está vacía.', '\n')
@@ -53,12 +56,12 @@ class Lista_enlazada:
                     nuevo = self.cabeza.siguiente
                     self.cabeza = nuevo
                     self.cabeza.siguiente = nuevo.siguiente
-                    del(nodo_actual)
+                    del(nodo_a_borrar)
                 else:   # Cualquier nodo después de cabeza, incluido cola
                     nodo_anterior = None
                     nodo_actual = self.cabeza
 
-                    while (nodo_actual.siguiente != None):
+                    while (nodo_actual.siguiente is not None):
                         nodo_anterior = nodo_actual
                         nodo_actual = nodo_actual.siguiente
                         if (nodo_actual == nodo_a_borrar):
@@ -66,10 +69,11 @@ class Lista_enlazada:
                     
                     if (nodo_a_borrar != self.cola):
                         nodo_anterior.siguiente = nodo_actual.siguiente
-                        del(nodo_actual)
                     else:   # Si nodo_a_borrar es igual a cola
                         self.cola = nodo_anterior
                         self.cola.siguiente = None
+                    self.longitud -=1    
+                    del(nodo_actual)    
             else:
                 print('Nodo no existente.', '\n')
             
@@ -80,7 +84,7 @@ class Lista_enlazada:
         else:
             nodo_a_borrar = self.buscar_nodo_por_valor(valor)
             
-            if (nodo_a_borrar != None):                
+            if (nodo_a_borrar is not None):                
 
                 if (self.cabeza == self.cola):
                     self.cabeza = None
@@ -95,7 +99,7 @@ class Lista_enlazada:
                     nodo_anterior = None
                     nodo_actual = self.cabeza
 
-                    while (nodo_actual.siguiente != None):
+                    while (nodo_actual.siguiente is not None):
                         nodo_anterior = nodo_actual
                         nodo_actual = nodo_actual.siguiente
                         if (nodo_actual == nodo_a_borrar):
@@ -105,8 +109,9 @@ class Lista_enlazada:
                         nodo_anterior.siguiente = nodo_actual.siguiente
                     else:   # Si nodo_a_borrar es igual a cola
                         self.cola = nodo_anterior
-                        self.cola.siguiente = None
-                    del(nodo_actual)    
+                        self.cola.siguiente = None    
+                    self.longitud -=1
+                    del(nodo_actual)
                         
             else:
                 print('Nodo no existente.', '\n')
@@ -116,7 +121,7 @@ class Lista_enlazada:
         if (self.es_vacio()): # Si la Lista_enlazada está vacía       
             print('El nodo no pudo ser borrado porque la ListaEnlazada est vacía.', '\n')
         else:
-            if (self.buscar_nodo_por_valor(valor) == None):
+            if (self.buscar_nodo_por_valor(valor) is None):
                 print('Nodo no existente.', '\n')
                 return 
             nodo_actual = self.cabeza
@@ -126,8 +131,10 @@ class Lista_enlazada:
                 nodo_actual = nodo_actual.siguiente
             if nodo_anterior is None:
                 self.cabeza = nodo_actual.siguiente
+                self.longitud -=1  
             elif nodo_actual:
                 nodo_anterior.siguiente = nodo_actual.siguiente
+                self.longitud -=1  
                 del(nodo_actual)
     
     # Método para obtener el último nodo
@@ -137,19 +144,39 @@ class Lista_enlazada:
             temp = temp.siguiente
         return temp.data
 
+    #Método para convertir de Lista_enlazada simple a Lista_enlazada circular simple
+    def convertir_a_lista_enlazada_circular_simple(self):
+        self.cola.siguiente = self.cabeza
+
+    # Método para saber si la Lista_enlazada tiene algún ciclo
+    def tiene_ciclo(self):
+        actual = self.cabeza
+
+        for i in range (self.longitud):
+            if (actual.siguiente is None):
+                return False
+            actual = actual.siguiente
+        return True    
+
     # Método para imprimir la Lista_enlazada
-    def imprimir_lista( self ):
+    def imprimir_lista(self):
         respuesta = ''
         
-        if (self.cabeza == None):  # Si la Lista_enlazada es vacía 
+        if (self.cabeza is None):  # Si la Lista_enlazada es vacía 
             respuesta = 'Lista enlazada{}' 
-        elif ((self.cabeza != None) and (self.cabeza == self.cola)):  # Si la Lista_enlazada tiene solo 1 Nodo
+        elif ((self.cabeza is not None) and (self.cabeza == self.cola)):  # Si la Lista_enlazada tiene solo 1 Nodo
             respuesta = 'ListaEnlazada{cabeza: ' + str(self.cabeza.data) + ', cola: ' + str(self.cola.data) + '}'
         else:    
             actual = self.cabeza
-            while (actual.siguiente != None):
+            cont = 1
+            while (actual.siguiente is not None):
                 respuesta += str(actual.data) + ' -> '
                 actual = actual.siguiente
+                #Para poder imprimir la lista enlazada circular simple y evitar el ciclo infinito
+                if (actual == self.cabeza):
+                    cont += 1
+                    if (cont == 2):
+                        break
             respuesta +=  str(actual.data);
         print(respuesta)
 
@@ -157,11 +184,26 @@ class Lista_enlazada:
 nodo1 = Nodo(1)
 nodo2 = Nodo(2)
 nodo3 = Nodo(3)
+nodo4 = Nodo(4)
+nodo5 = Nodo(5)
 le = Lista_enlazada(nodo1) # Instancia de la clase
+le.imprimir_lista() # Imprimimos la lista de nodos
+print('Tiene ciclo: ', le.tiene_ciclo())
+
 le.insertar_nodo_al_final(nodo2)
 le.insertar_nodo_al_final(nodo3) 
+le.insertar_nodo_al_final(nodo4) 
+le.insertar_nodo_al_final(nodo5) 
+
+le.borrar_nodo_por_valor(2)
+le.eliminar_nodo_por_valor(3)
+le.borrar_nodo_mejorado(nodo4)
 le.imprimir_lista()
 
-nodo0 = Nodo(0)
-le.insertar_nodo_al_inicio(nodo0) # Agregamos un elemento al inicio del nodo
+le.convertir_a_lista_enlazada_circular_simple()
 le.imprimir_lista() # Imprimimos la lista de nodos
+print('Tiene ciclo: ', le.tiene_ciclo())
+
+le.borrar_nodo_por_valor(5)
+le.imprimir_lista() # Imprimimos la lista de nodos
+print('Tiene ciclo: ', le.tiene_ciclo())
