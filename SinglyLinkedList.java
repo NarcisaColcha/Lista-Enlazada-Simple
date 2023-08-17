@@ -6,8 +6,17 @@
 package singlylinkedlist;
 
 /**
- *
+ * <h1>SinglyLinkedList</h1>
+ * Es un programa que permite visualizar una lista enlazada en consola.
+ * <p>
+ * Se crea una lista simple enlazada (ListaEnlazada) 
+ * @see ListaEnlazada 
+ * Y se hacen uso del comportamiento de esa clase en conjunto con la creación de Nodo
+ * @see Nodo
+ * 
  * @author NarcisaC
+ * @version 1.0
+ * @since 2023 
  */
 public class SinglyLinkedList {
 
@@ -36,6 +45,12 @@ public class SinglyLinkedList {
     
 }
 
+/**
+ * <h1>Nodo</h1>
+ * Nodo es una clase que permite crear nodos.
+ * <p>
+ * Los nodos creados en esta clase pueden ser agregados en la lista simple enlazada (ListaEnlazada).
+ */
 class Nodo {
  
     int valor;
@@ -45,6 +60,13 @@ class Nodo {
     Nodo(int valor, Nodo siguiente) { this.valor = valor; this.siguiente = siguiente;  }        
 }
 
+/**
+ * <h1>ListaEnlaza</h1>
+ * Es un programa que permite visualizar una lista enlazada en consola.
+ * <p>
+ * Existen métodos que permiten crear un a lista simple enlazada (ListaEnlazada), agregar un nodo, 
+ * buscar en la lista enlazada por nodo o por valor, eliminar un nodo, ver existen ciclos, entre otras.
+ */
 class ListaEnlazada {
     
     protected Nodo cabeza;
