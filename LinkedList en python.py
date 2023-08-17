@@ -1,3 +1,18 @@
+'''
+Nodo y Lista_enlazada
+
+Este archivo contiene las clases Nodo y Lista_enlazada, las cuales permiten:
+ - Crear una lista enlazada simple (Lista_enlazada) con un nodo inicial creado desde la clase Nodo,
+ - Agregar nodos a la Lista_enlazada,
+ - Buscar en la lista por valor,
+ - Eliminar nodos de la Lista_enlazada,
+ - Comprobar si la Lista_enlazada tiene ciclos convirtiendo la lista enlazada simple a una lista circular simple, 
+
+Autor: Narcisa Colcha
+Fecha: 2023-08-17
+Versión: 1.0
+'''
+
 # Creamos la clase Nodo
 class Nodo:
     def __init__(self, data, siguiente = None):
